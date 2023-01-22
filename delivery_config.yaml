@@ -1,0 +1,44 @@
+output_path: ./build
+use_fvm: true
+build_args: []
+jobs:
+  local_build:
+    name: Only build
+    use_fvm: true
+    targets:
+      - name: APK for customer
+        type: apk
+        to: local
+        use_fvm: true
+        build_args:
+          - -t
+          - lib/main_release.dart
+          - --flavor
+          - prod
+      - name: iOS for hand release
+        type: ipa
+        to: local
+        build_args:
+          - -t
+          - lib/main_release.dart
+          - --flavor
+          - prod
+  firebase:
+    name: Firebase All
+    targets:
+      - name: Firebase APK
+        type: apk
+        to: firebase
+        build_args:
+          - -t
+          - lib/main_qa.dart
+          - --flavor
+          - dev
+      - name: Firebase iOS
+        type: ipa
+        to: firebase
+        build_args:
+          - -t
+          - lib/main_qa.dart
+          - --flavor
+          - dev

@@ -1,0 +1,15 @@
+include: package:lints/recommended.yaml
+
+linter:
+  rules:
+    public_member_api_docs: true
+    prefer_constructors_over_static_methods: false
+    always_put_required_named_parameters_first: false
+    avoid_positional_boolean_parameters: false
+    prefer_mixin: false
+    sort_pub_dependencies: false
+    implicit_dynamic_variable: false
+
+analyzer:
+  exclude:
+    - "**.g.dart"
