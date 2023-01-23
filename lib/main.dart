@@ -2,9 +2,11 @@ import 'dart:io';
 
 import 'package:args/args.dart';
 import 'package:checked_yaml/checked_yaml.dart';
+import 'package:flutter_delivery_tool/build_executor/apk_build_executor.dart';
 import 'package:flutter_delivery_tool/build_executor/build_executor.dart';
 import 'package:flutter_delivery_tool/config_data/delivery_config.dart';
 import 'package:flutter_delivery_tool/delivery_executor/delivery_executor.dart';
+import 'package:flutter_delivery_tool/delivery_executor/firebase_delivery_executor.dart';
 import 'package:flutter_delivery_tool/delivery_executor/local_delivery_executor.dart';
 import 'package:flutter_delivery_tool/job.dart';
 import 'package:flutter_delivery_tool/target.dart';
@@ -39,7 +41,7 @@ void main(List<String> arguments) async {
     exit(2);
   }
 
-  final logWriter = LogWriter(argResults[_verboseFlag]);
+  final logWriter = LogWriter()..isVerbose = argResults[_verboseFlag];
 
   final importConfigProgress =
       logWriter.p('Importing $_deliveryConfigFileName...');
@@ -183,7 +185,11 @@ List<DeliveryTarget> _createDeliveryTargets({
         ));
         break;
       case DeliveryConfigTargetDestination.firebase:
-        throw UnimplementedError('No yet');
+        executor = FirebaseAndroidDeliveryExecutor(ApkBuildExecutor(
+          targetConfig.args,
+          useFvmByTarget,
+        ));
+        break;
       case DeliveryConfigTargetDestination.playConsole:
         throw UnimplementedError('No yet');
       case DeliveryConfigTargetDestination.testFlight:

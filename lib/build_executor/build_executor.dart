@@ -4,6 +4,7 @@ import 'package:flutter_delivery_tool/build_executor/apk_build_executor.dart';
 import 'package:flutter_delivery_tool/build_executor/app_bundle_build_executor.dart';
 import 'package:flutter_delivery_tool/build_executor/ipa_build_executor.dart';
 import 'package:flutter_delivery_tool/config_data/delivery_config.dart';
+import 'package:flutter_delivery_tool/utils/log_writer.dart';
 
 abstract class BuildExecutor {
   String get buildTargetName;
@@ -23,10 +24,9 @@ abstract class BuildExecutor {
   Future<void> execute() async {
     final command = _combineCommand();
 
-    // TODO: use logWriter
-    stdout.writeln('Running command ${command.join(' ')}');
+    logWriter.i('Running command ${command.join(' ')}');
     final result = await Process.run(command.first, command..removeAt(0));
-    stdout.writeln(result.stdout);
+    logWriter.i(result.stdout);
 
     if (result.exitCode != 0) {
       throw BuildExecutionException(

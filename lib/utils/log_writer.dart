@@ -1,16 +1,22 @@
 import 'package:cli_util/cli_logging.dart';
 
+// Need to use Logger.progress method correctly.
+final _ansi = Ansi(Ansi.terminalSupportsAnsi);
+
+final logWriter = LogWriter();
+
 class LogWriter {
-  late final Logger _logger;
+  Logger _logger = Logger.standard(ansi: _ansi);
 
-  /// Creates instance.
-  LogWriter(bool isVerbose) {
-    // Need to use Logger.progress method correctly.
-    final ansi = Ansi(Ansi.terminalSupportsAnsi);
-
-    _logger =
-        isVerbose ? Logger.verbose(ansi: ansi) : Logger.standard(ansi: ansi);
+  set isVerbose(bool value) {
+    if (value) _logger = Logger.verbose(ansi: _ansi);
   }
+
+  static final LogWriter _instance = LogWriter._internal();
+
+  factory LogWriter() => _instance;
+
+  LogWriter._internal();
 
   /// Prints verbose.
   void v(String message) => _logger.trace(message);

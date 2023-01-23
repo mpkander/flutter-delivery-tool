@@ -1,7 +1,7 @@
 name: flutter_delivery_tool
 description: A sigle-click delivery tool for your Flutter app.
 version: 0.0.1
-maintainer: Mark Abramenko (@markander)
+maintainer: Mark Abramenko (@mpkander)
 
 environment:
   sdk: ">=2.18.6 <3.0.0"
@@ -14,6 +14,7 @@ dependencies:
   json_annotation: ^4.8.0
   checked_yaml: ^2.0.2
   cli_util: ^0.3.5
+  process_run: ^0.12.5+2
 
 dev_dependencies:
   test: ^1.16.0
